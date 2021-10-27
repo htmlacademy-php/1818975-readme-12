@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Kirill Blinov](https://up.htmlacademy.ru/php/12/user/1818975).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Пилипенко](https://htmlacademy.ru/profile/id93207).
 
 ---
 
