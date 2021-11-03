@@ -18,6 +18,13 @@ $post_cards = [
     'img' => 'userpic.jpg'
     ],
     [
+    'title' => 'Игра престолов',
+    'type' => 'post-text',
+    'content' => 'Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! ',
+    'author' => 'Владик',
+    'img' => 'userpic.jpg'
+    ],
+    [
     'title' => 'Наконец, обработал фотки!',
     'type' => 'post-photo',
     'content' => 'rock-medium.jpg',
@@ -39,6 +46,37 @@ $post_cards = [
     'img' => 'userpic.jpg'
     ]
 ];
+// первый вариант функции (использует 2 переменные и меньше итераций)
+function format_text1($str,$length){
+    if(iconv_strlen($str) <= $length){ //Использовал функцию iconv_strlen в место strlen
+        return '<p>' . $str . '</p>';  
+    } 
+    $words_arr = explode(' ',$str);
+    $index = count($words_arr) - 1;
+    for ($i = $index; $i != 0; $i--){ // считаем длину и удаляем по одноиу слову с конца
+        unset($words_arr[$i]);
+        if(iconv_strlen(implode(' ', $words_arr)) <= $length){
+            return '<p>' . implode(' ', $words_arr) . '... </p><a class="post-text__more-link" href="#">Читать далее</a>';
+        }     
+    }   
+}
+// второй вариант функции (использует 3 переменных и больше итераций цикла)
+function format_text2($str,$length){
+    $words_arr = explode(' ', $str);
+    $counter = 0;
+    if(iconv_strlen($str)<=$length){
+        return '<p>' . $str . '</p>';
+    }
+    foreach ($words_arr as $value) { 
+        $counter += iconv_strlen($value); 
+        if($counter >= $length){
+            break;
+        }
+        $new_word_arr[] = $value;
+    }
+    return '<p>' . implode(' ', $new_word_arr) . '... </p><a class="post-text__more-link" href="#">Читать далее</a>';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -253,7 +291,7 @@ $post_cards = [
                         <cite>Неизвестный Автор</cite>
                     </blockquote>
                     <?php elseif ($post_card['type'] === 'post-text'): ?>
-                    <p><?= $post_card['content'] ?></p>
+                    <?= format_text1($post_card['content'],300); ?> <!-- Используем функцию -->
                     <?php elseif ($post_card['type'] === 'post-photo'): ?>
                     <div class="post-photo__image-wrapper">
                         <img src="img/<?= $post_card['content']; ?>" alt="Фото от пользователя" width="360" height="240">
