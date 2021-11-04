@@ -68,11 +68,12 @@ function format_text2($str,$length){
         return '<p>' . $str . '</p>';
     }
     foreach ($words_arr as $value) { 
-        $counter += iconv_strlen($value); 
+        $counter += iconv_strlen($value); //Считаем длину строки складывая длины слов
         if($counter >= $length){
             break;
         }
         $new_word_arr[] = $value;
+        $counter += 1; //Учитываем пробелы между слов
     }
     return '<p>' . implode(' ', $new_word_arr) . '... </p><a class="post-text__more-link" href="#">Читать далее</a>';
 }
