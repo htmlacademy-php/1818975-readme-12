@@ -60,23 +60,6 @@ function format_text1($str,$length){
         }     
     }   
 }
-// второй вариант функции (использует 3 переменных и больше итераций цикла)
-function format_text2($str,$length){
-    $words_arr = explode(' ', $str);
-    $counter = 0;
-    if(iconv_strlen($str)<=$length){
-        return '<p>' . $str . '</p>';
-    }
-    foreach ($words_arr as $value) { 
-        $counter += iconv_strlen($value); //Считаем длину строки складывая длины слов
-        if($counter >= $length){
-            break;
-        }
-        $new_word_arr[] = $value;
-        $counter += 1; //Учитываем пробелы между слов
-    }
-    return '<p>' . implode(' ', $new_word_arr) . '... </p><a class="post-text__more-link" href="#">Читать далее</a>';
-}
 
 ?>
 <!DOCTYPE html>
