@@ -48,7 +48,7 @@ $post_cards = [
     ]
 ];
 // первый вариант функции (использует 2 переменные и меньше итераций)
-function format_text1($str,$length){
+function cut_text($str,$length){
     if(iconv_strlen($str) <= $length){ //Использовал функцию iconv_strlen в место strlen
         return '<p>' . $str . '</p>';
     }
@@ -276,7 +276,7 @@ function format_text1($str,$length){
                         <cite>Неизвестный Автор</cite>
                     </blockquote>
                     <?php elseif ($post_card['type'] === 'post-text'): ?>
-                    <?= format_text1($post_card['content'],300); ?> <!-- Используем функцию -->
+                    <?= cut_text($post_card['content'],300); ?> <!-- Используем функцию -->
                     <?php elseif ($post_card['type'] === 'post-photo'): ?>
                     <div class="post-photo__image-wrapper">
                         <img src="img/<?= $post_card['content']; ?>" alt="Фото от пользователя" width="360" height="240">
