@@ -2,43 +2,66 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Кирилл'; // укажите здесь ваше имя
+
 $post_cards = [
     [
-    'title' => 'Цитата',
-    'type' => 'post-quote',
-    'content' => 'Мы в жизни любим только раз, а после ищем лишь похожих',
-    'author' => 'Лариса',
-    'img' => 'userpic-larisa-small.jpg'
+        'title' => 'Цитата',
+        'type' => 'post-quote',
+        'content' => 'Мы в жизни любим только раз, а после ищем лишь похожих',
+        'author' => 'Лариса',
+        'img' => 'userpic-larisa-small.jpg'
     ],
     [
-    'title' => 'Игра престолов',
-    'type' => 'post-text',
-    'content' => 'Не могу дождаться начала финального сезона своего любимого сериала!',
-    'author' => 'Владик',
-    'img' => 'userpic.jpg'
+        'title' => 'Игра престолов',
+        'type' => 'post-text',
+        'content' => 'Не могу дождаться начала финального сезона своего любимого сериала!',
+        'author' => 'Владик',
+        'img' => 'userpic.jpg'
     ],
     [
-    'title' => 'Наконец, обработал фотки!',
-    'type' => 'post-photo',
-    'content' => 'rock-medium.jpg',
-    'author' => 'Виктор',
-    'img' => 'userpic-mark.jpg'
+        'title' => 'Игра престолов',
+        'type' => 'post-text',
+        'content' => 'Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! Не могу дождаться начала финального сезона своего любимого сериала! ',
+        'author' => 'Владик',
+        'img' => 'userpic.jpg'
     ],
     [
-    'title' => 'Моя мечта',
-    'type' => 'post-photo',
-    'content' => 'coast-medium.jpg',
-    'author' => 'Лариса',
-    'img' => 'userpic-larisa-small.jpg'
+        'title' => 'Наконец, обработал фотки!',
+        'type' => 'post-photo',
+        'content' => 'rock-medium.jpg',
+        'author' => 'Виктор',
+        'img' => 'userpic-mark.jpg'
     ],
     [
-    'title' => 'Лучшие курсы',
-    'type' => 'post-link',
-    'content' => 'www.htmlacademy.ru',
-    'author' => 'Владик',
-    'img' => 'userpic.jpg'
+        'title' => 'Моя мечта',
+        'type' => 'post-photo',
+        'content' => 'coast-medium.jpg',
+        'author' => 'Лариса',
+        'img' => 'userpic-larisa-small.jpg'
+    ],
+    [
+        'title' => 'Лучшие курсы',
+        'type' => 'post-link',
+        'content' => 'www.htmlacademy.ru',
+        'author' => 'Владик',
+        'img' => 'userpic.jpg'
     ]
 ];
+// первый вариант функции (использует 2 переменные и меньше итераций)
+function cut_text($str,$length){
+    if(iconv_strlen($str) <= $length){ //Использовал функцию iconv_strlen в место strlen
+        return '<p>' . $str . '</p>';
+    }
+    $words_arr = explode(' ',$str);
+    $index = count($words_arr) - 1;
+    for ($i = $index; $i != 0; $i--){ // считаем длину и удаляем по одноиу слову с конца
+        unset($words_arr[$i]);
+        if(iconv_strlen(implode(' ', $words_arr)) <= $length){
+            return '<p>' . implode(' ', $words_arr) . '... </p><a class="post-text__more-link" href="#">Читать далее</a>';
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -105,7 +128,7 @@ $post_cards = [
                             </div>
                             <div class="header__profile-name">
                                 <span>
-                                    <?= $user_name ?> 
+                                    <?= $user_name ?>
                                 </span>
                                 <svg class="header__link-arrow" width="10" height="6">
                                     <use xlink:href="#icon-arrow-right-ad"></use>
@@ -253,7 +276,7 @@ $post_cards = [
                         <cite>Неизвестный Автор</cite>
                     </blockquote>
                     <?php elseif ($post_card['type'] === 'post-text'): ?>
-                    <p><?= $post_card['content'] ?></p>
+                    <?= cut_text($post_card['content'],300); ?> <!-- Используем функцию -->
                     <?php elseif ($post_card['type'] === 'post-photo'): ?>
                     <div class="post-photo__image-wrapper">
                         <img src="img/<?= $post_card['content']; ?>" alt="Фото от пользователя" width="360" height="240">
@@ -286,7 +309,7 @@ $post_cards = [
                         </a>
                     </div>
                     <?php endif; ?>
-                </div> 
+                </div>
                 <footer class="post__footer">
                     <div class="post__author">
                         <a class="post__author-link" href="#" title="Автор">
