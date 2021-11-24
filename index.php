@@ -1,5 +1,6 @@
 <?php
 require_once 'helpers.php';
+date_default_timezone_set('Europe/Moscow');
 $is_auth = rand(0, 1);
 
 $user_name = 'Кирилл'; // укажите здесь ваше имя
@@ -49,7 +50,8 @@ $post_cards = [
     ]
 ];
 // первый вариант функции (использует 2 переменные и меньше итераций)
-function cut_text($str,$length){
+function cut_text($str,$length)
+{
     if(iconv_strlen($str) <= $length){ //Использовал функцию iconv_strlen в место strlen
         return '<p>' . $str . '</p>';
     }
@@ -63,6 +65,31 @@ function cut_text($str,$length){
     }
 }
 
+function get_post_rel_date($index)
+{
+    $post_date = strtotime(generate_random_date($index));
+    $cur_date = strtotime('now');
+
+    $post_interval_min = floor(($cur_date - $post_date)/60);
+    $post_interval_hour = floor(($post_interval_min)/60);
+    $post_interval_day = floor(($post_interval_hour)/24);
+    $post_interval_week = floor(($post_interval_day)/7);
+    $post_interval_month = floor(($post_interval_week)/5);
+
+    if ( $post_interval_min < 60 ) {
+        return $post_interval_min . ' ' . get_noun_plural_form($post_interval_min, 'минута', 'минуты', 'минут') . ' назад';
+    } elseif ($post_interval_hour < 24 ) {
+        return $post_interval_hour . ' ' . get_noun_plural_form($post_interval_hour, 'час', 'часа', 'часов') . ' назад';
+    } elseif ($post_interval_day < 7) {
+        return $post_interval_day . ' ' . get_noun_plural_form($post_interval_day, 'день', 'дня', 'дней') . ' назад';
+    } elseif ($post_interval_week < 5) {
+        return $post_interval_week . ' ' . get_noun_plural_form($post_interval_week, 'неделю', 'недели', 'недель') . ' назад';
+    } else {
+        return $post_interval_month . ' ' . get_noun_plural_form($post_interval_hour, 'месяц', 'месяца', 'месяцов') . ' назад';
+    }
+}
+
+
 $main = include_template('main.php', ['post_cards' => $post_cards]);
 $layout = include_template('layout.php', [
     'content' => $main,
@@ -72,4 +99,3 @@ $layout = include_template('layout.php', [
 ]);
 print($layout);
 ?>
-
