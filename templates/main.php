@@ -85,7 +85,7 @@
     </div>
     <div class="popular__posts">
 
-        <?php foreach ($post_cards as $post_card): ?>
+        <?php foreach ($post_cards as $index => $post_card): ?>
             <article class="popular__post post <?= htmlspecialchars($post_card['type']); ?>">
                 <header class="post__header">
                     <h2><?= htmlspecialchars($post_card['title']); ?></h2>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?= htmlspecialchars($post_card['author']); ?></b>
-                                <time class="post__time" datetime="">дата</time>
+                                <time class="post__time" datetime="<?= generate_random_date($index) ?>" title="<?= generate_random_date($index) ?>"><?= get_post_rel_date($index)?></time>
                             </div>
                         </a>
                     </div>
