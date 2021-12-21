@@ -64,14 +64,22 @@ function cut_text($str,$length)
         }
     }
 }
-$post_publication = 0;
 
-function get_post_date($index, &$post_date)
-{
-    $post_date = strtotime(generate_random_date($index));
-    return $post_date = date('Y-m-d H:i', $post_date);
+//добавляем в масив post_cards случайные даты публикаций
+//эту дату будем выводить как оригинальную дату в атрибуте datetime
+//также использовать для получения даты в формате «дд.мм.гггг чч: мм» для атрибута title
+//а также для
+foreach($post_cards as $index => $post_card){
+    $post_cards[$index]['post_date'] = generate_random_date($index);
 }
 
+//функция для получения формата «дд.мм.гггг чч: мм», который будем выводить в атрибуте title
+function get_date_format($original_format_date){
+    $timestamp = strtotime($original_format_date);
+    return date('d.m.Y H:i', $timestamp);
+}
+
+//функция для получения даты в относительном формате, которую будем выводить в нутри тега ti
 function get_post_rel_date($post_date)
 {
     $cur_date = strtotime('now');
@@ -97,7 +105,7 @@ function get_post_rel_date($post_date)
 }
 
 
-$main = include_template('main.php', ['post_cards' => $post_cards, 'post_publication' => $post_publication]);
+$main = include_template('main.php', ['post_cards' => $post_cards]);
 $layout = include_template('layout.php', [
     'content' => $main,
     'title' => 'readme: популярное',
