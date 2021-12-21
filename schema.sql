@@ -4,7 +4,7 @@ USE readme;
 
 CREATE TABLE posts(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    add_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     title VARCHAR(64),
     content TEXT,
     like_count INT,
@@ -19,7 +19,7 @@ CREATE TABLE posts(
 
 CREATE TABLE user(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    add_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     email VARCHAR(255),
     login VARCHAR(255),
     password VARCHAR(64),
@@ -28,23 +28,23 @@ CREATE TABLE user(
 
 CREATE TABLE comments(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    add_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content TEXT,
     post_id INT,
     user_id INT
 );
 
-CREATE TABLE  massages(
+CREATE TABLE  messages(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    add_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content TEXT,
-    from_id INT,
-    to_id INT
+    user_sender_id INT,
+    user_recipient_id INT
 );
 
 CREATE TABLE subscriptions(
-    sub_from_id INT,
-    sub_to_id INT
+    user_subscriber_id INT,
+    user_subscription_id INT
 );
 
 CREATE TABLE post_types(
