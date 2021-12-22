@@ -142,7 +142,7 @@
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?= htmlspecialchars($post_card['author']); ?></b>
-                                <time class="post__time" datetime="<?= generate_random_date($index) ?>" title="<?= generate_random_date($index) ?>"><?= get_post_rel_date($index)?></time>
+                                <time class="post__time" datetime="<?= $post_card['post_date'] ?>" title="<?= get_date_format($post_card['post_date']) ?>"><?= get_post_rel_date($post_card['post_date'])?></time>
                             </div>
                         </a>
                     </div>

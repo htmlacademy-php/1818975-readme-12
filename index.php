@@ -65,16 +65,31 @@ function cut_text($str,$length)
     }
 }
 
-function get_post_rel_date($index)
-{
-    $post_date = strtotime(generate_random_date($index));
-    $cur_date = strtotime('now');
+//добавляем в масив post_cards случайные даты публикаций
+//эту дату будем выводить как оригинальную дату в атрибуте datetime
+//также использовать для получения даты в формате «дд.мм.гггг чч: мм» для атрибута title
+//а также для
+foreach($post_cards as $index => $post_card){
+    $post_cards[$index]['post_date'] = generate_random_date($index);
+}
 
-    $post_interval_min = floor(($cur_date - $post_date)/60);
-    $post_interval_hour = floor(($post_interval_min)/60);
-    $post_interval_day = floor(($post_interval_hour)/24);
-    $post_interval_week = floor(($post_interval_day)/7);
-    $post_interval_month = floor(($post_interval_week)/5);
+//функция для получения формата «дд.мм.гггг чч: мм», который будем выводить в атрибуте title
+function get_date_format($original_format_date){
+    $timestamp = strtotime($original_format_date);
+    return date('d.m.Y H:i', $timestamp);
+}
+
+//функция для получения даты в относительном формате, которую будем выводить в нутри тега ti
+function get_post_rel_date($post_date)
+{
+    $cur_date = strtotime('now');
+    $post_date = strtotime($post_date);
+    $post_interval = $cur_date - $post_date;
+    $post_interval_min = floor(($post_interval)/(60));
+    $post_interval_hour = floor(($post_interval)/(60*60));
+    $post_interval_day = floor(($post_interval)/(60*60*24));
+    $post_interval_week = floor(($post_interval)/(60*60*24*7));
+    $post_interval_month = floor(($post_interval)/(60*60*24*30));
 
     if ( $post_interval_min < 60 ) {
         return $post_interval_min . ' ' . get_noun_plural_form($post_interval_min, 'минута', 'минуты', 'минут') . ' назад';
